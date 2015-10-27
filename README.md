@@ -1,2 +1,3 @@
 # missile-zombies
-Required exercises to recruitmen process at SwissBytes
+Required exercise to recruitment process at SwissBytes
+
