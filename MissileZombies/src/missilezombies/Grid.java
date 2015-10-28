@@ -22,9 +22,9 @@ class Grid {
 
     public int receiveImpactWith(Missile missile) {
         int zombiesEliminated = 0;
-        List<Cell> effectiveMatrix = searchAffectedCells(missile.coordinatesUnderAttack());
-        if ( effectiveMatrix != null ) {
-            for (Cell cell : effectiveMatrix) {
+        List<Point> attackedPositions = missile.coordinatesUnderAttack();
+        for (Cell cell : matrix) {
+            if (attackedPositions.contains(cell.position)) {
                 zombiesEliminated += cell.eliminateZombies();
             }
         }
@@ -37,15 +37,4 @@ class Grid {
             matrix.add(new Cell(x, y, zombies) );
         }
     }
-    
-    private List<Cell> searchAffectedCells (List<Point> attackedPositions) {
-        List<Cell> effectiveMatrix = new ArrayList<>();
-        for (Cell cell : matrix) {
-            if ( attackedPositions.contains(cell.position) ) {
-                effectiveMatrix.add(cell);
-            }
-        }
-        return effectiveMatrix;
-    }
-
 }
