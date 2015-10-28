@@ -18,9 +18,7 @@ class Cell {
     }
     
     public int eliminateZombies () {
-        int toEliminate = zombies;
-        zombies = 0;
-        return toEliminate;
+        return zombies;
     }
     
     @Override

@@ -9,40 +9,58 @@ import java.util.List;
  * @author Luis Roberto <luis.robertop87@gmail.com>
  */
 class Missile {
-    
-    private final int MAX_CELLS_AFFECTED = 13;
 
     private Point goal;
-    private List<Point> potentialAffectedCells;
+    private List<Point> potentialAffectedPositions;
+    private final int limitX;
+    private final int limitY;
 
-    Missile(int x, int y) {
+    Missile(int x, int y, Grid objective) {
         goal = new Point(x, y);
-        potentialAffectedCells = new ArrayList<>();
-        getAffectedCells();
+        potentialAffectedPositions = new ArrayList<>();
+        limitX = objective.width;
+        limitY = objective.height;
+        getAffectedPositions();
     }
     
-    private void getAffectedCells() {
+    private void getAffectedPositions() {
         //Center
-        potentialAffectedCells.add( new Point(goal) );
+        potentialAffectedPositions.add( new Point(goal) );
         //Vertical
-        potentialAffectedCells.add( new Point(goal.x, goal.y + 1) );
-        potentialAffectedCells.add( new Point(goal.x, goal.y + 2) );
-        potentialAffectedCells.add( new Point(goal.x, goal.y - 1) );
-        potentialAffectedCells.add( new Point(goal.x, goal.y - 2) );
+        potentialAffectedPositions.add( new Point(goal.x, goal.y + 1) );
+        potentialAffectedPositions.add( new Point(goal.x, goal.y + 2) );
+        potentialAffectedPositions.add( new Point(goal.x, goal.y - 1) );
+        potentialAffectedPositions.add( new Point(goal.x, goal.y - 2) );
         //Horizontal
-        potentialAffectedCells.add( new Point(goal.x + 1, goal.y) );
-        potentialAffectedCells.add( new Point(goal.x + 2, goal.y) );
-        potentialAffectedCells.add( new Point(goal.x - 1, goal.y) );
-        potentialAffectedCells.add( new Point(goal.x - 2, goal.y) );
+        potentialAffectedPositions.add( new Point(goal.x + 1, goal.y) );
+        potentialAffectedPositions.add( new Point(goal.x + 2, goal.y) );
+        potentialAffectedPositions.add( new Point(goal.x - 1, goal.y) );
+        potentialAffectedPositions.add( new Point(goal.x - 2, goal.y) );
         //North squares
-        potentialAffectedCells.add( new Point(goal.x - 1, goal.y + 1) );
-        potentialAffectedCells.add( new Point(goal.x + 1, goal.y + 1) );
+        potentialAffectedPositions.add( new Point(goal.x - 1, goal.y + 1) );
+        potentialAffectedPositions.add( new Point(goal.x + 1, goal.y + 1) );
         //South squeres
-        potentialAffectedCells.add( new Point(goal.x - 1, goal.y - 1) );
-        potentialAffectedCells.add( new Point(goal.x - 1, goal.y + 1) );
+        potentialAffectedPositions.add( new Point(goal.x - 1, goal.y - 1) );
+        potentialAffectedPositions.add( new Point(goal.x - 1, goal.y + 1) );
+        
+        //Wrapper points
+        for (Point position : potentialAffectedPositions) {
+            //Fixed x axis
+            if ( position.x > limitX ) {
+                position.move( position.x - limitX , position.y);
+            } else if (position.x < 1) {
+                position.move( limitX - position.x , position.y);
+            }   
+            //Fixed y axis
+            if ( position.y > limitY ) {
+                position.move( position.x, position.y - limitY);
+            } else if (position.y < 1) {
+                position.move( position.x, limitY - position.y);
+            }
+        }
     }
     
     public List<Point> coordinatesUnderAttack() {
-        return potentialAffectedCells;
+        return potentialAffectedPositions;
     }
 }

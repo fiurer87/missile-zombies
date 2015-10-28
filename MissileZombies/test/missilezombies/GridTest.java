@@ -1,6 +1,7 @@
 package missilezombies;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -8,6 +9,19 @@ import org.junit.Test;
 * @author Luis Roberto <luis.robertop87@gmail.com>
  */
 public class GridTest {
+    
+    private Grid proposalGrid;
+    
+    @Before
+    public void setUp() {
+        proposalGrid = new Grid(10, 8);
+        proposalGrid.addZombiesCell(3, 3, 4);
+        proposalGrid.addZombiesCell(2, 3, 3);
+        proposalGrid.addZombiesCell(4, 2, 2);
+        proposalGrid.addZombiesCell(5, 1, 3);
+        proposalGrid.addZombiesCell(5, 5, 6);
+        proposalGrid.addZombiesCell(8, 6, 4);
+    }
     
     @Test
     public void testBasicGridWithoutZombies() {
@@ -18,7 +32,7 @@ public class GridTest {
         int y = 1;
 
         Grid grid = new Grid(witdh, height);
-        Missile missile = new Missile(x, y);
+        Missile missile = new Missile(x, y, grid);
         int zombiesDestroyed = grid.receiveImpactWith(missile);
         int expectedZombiesDestroyed = 0;
         Assert.assertEquals(expectedZombiesDestroyed, zombiesDestroyed);
@@ -38,7 +52,7 @@ public class GridTest {
         Grid grid = new Grid(witdh, height);
         grid.addZombiesCell(x, y, zombies);
 
-        Missile missile = new Missile(x, y);
+        Missile missile = new Missile(x, y, grid);
         int zombiesDestroyed = grid.receiveImpactWith(missile);
         int expectedZombiesDestroyed = zombies;
         Assert.assertEquals(expectedZombiesDestroyed, zombiesDestroyed);
@@ -58,33 +72,28 @@ public class GridTest {
         Grid grid = new Grid(witdh, height);
         grid.addZombiesCell(2, 2, zombies);
 
-        Missile missile = new Missile(x, y);
+        Missile missile = new Missile(x, y, grid);
         int zombiesDestroyed = grid.receiveImpactWith(missile);
         int expectedZombiesDestroyed = zombies;
         Assert.assertEquals(expectedZombiesDestroyed, zombiesDestroyed);
     }
     
     @Test
-    public void testComplexGrid10x8() {
-        int witdh = 10;
-        int height = 8;
-        
-        //Coordinates for the missile impact
-        int x = 8;
-        int y = 6;
+    public void testProposalInputOutputX4Y3Z9() {
 
-        Grid grid = new Grid(witdh, height);
-        grid.addZombiesCell(3, 3, 4);
-        grid.addZombiesCell(2, 3, 3);
-        grid.addZombiesCell(4, 2, 2);
-        grid.addZombiesCell(5, 1, 3);
-        grid.addZombiesCell(5, 5, 6);
-        grid.addZombiesCell(8, 6, 4);
+        Missile missile1 = new Missile(4, 3, proposalGrid);
+        int zombiesDestroyed = proposalGrid.receiveImpactWith(missile1);
+        int expectedZombiesDestroyed = 9;
+        Assert.assertEquals(expectedZombiesDestroyed, zombiesDestroyed);
         
-
-        Missile missile = new Missile(x, y);
-        int zombiesDestroyed = grid.receiveImpactWith(missile);
-        int expectedZombiesDestroyed = 4;
+        Missile missile2 = new Missile(8, 6, proposalGrid);
+        zombiesDestroyed = proposalGrid.receiveImpactWith(missile2);
+        expectedZombiesDestroyed = 4;
+        Assert.assertEquals(expectedZombiesDestroyed, zombiesDestroyed);
+        
+        Missile missile3 = new Missile(10, 3, proposalGrid);
+        zombiesDestroyed = proposalGrid.receiveImpactWith(missile3);
+        expectedZombiesDestroyed = 3;
         Assert.assertEquals(expectedZombiesDestroyed, zombiesDestroyed);
     }
     

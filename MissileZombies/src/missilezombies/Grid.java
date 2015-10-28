@@ -10,8 +10,8 @@ import java.util.List;
  */
 class Grid {
     
-    private int width;
-    private int height;
+    protected int width;
+    protected int height;
     private List<Cell> matrix;
     
     public Grid(int width, int height) {
@@ -32,7 +32,8 @@ class Grid {
     }
 
     public void addZombiesCell(int x, int y, int zombies) {
-        if( x <= width && y <= height ) {
+        if (zombies <= 0) return; // Just accept cells with 1 zombie at least
+        if( (x > 0 && x <= width) && (y > 0 && y <= height) ) {
             matrix.add(new Cell(x, y, zombies) );
         }
     }
