@@ -33,7 +33,7 @@ public class GridTest {
 
         Grid grid = new Grid(witdh, height);
         Missile missile = new Missile(x, y, grid);
-        int zombiesDestroyed = grid.receiveImpactWith(missile);
+        int zombiesDestroyed = grid.receiveImpactWith(missile, false).zombies;
         int expectedZombiesDestroyed = 0;
         Assert.assertEquals(expectedZombiesDestroyed, zombiesDestroyed);
     }
@@ -53,7 +53,7 @@ public class GridTest {
         grid.addZombiesCell(x, y, zombies);
 
         Missile missile = new Missile(x, y, grid);
-        int zombiesDestroyed = grid.receiveImpactWith(missile);
+        int zombiesDestroyed = grid.receiveImpactWith(missile, false).zombies;
         int expectedZombiesDestroyed = zombies;
         Assert.assertEquals(expectedZombiesDestroyed, zombiesDestroyed);
     }
@@ -73,26 +73,27 @@ public class GridTest {
         grid.addZombiesCell(2, 2, zombies);
 
         Missile missile = new Missile(x, y, grid);
-        int zombiesDestroyed = grid.receiveImpactWith(missile);
+        int zombiesDestroyed = grid.receiveImpactWith(missile, false).zombies;
         int expectedZombiesDestroyed = zombies;
         Assert.assertEquals(expectedZombiesDestroyed, zombiesDestroyed);
     }
     
     @Test
-    public void testProposalInputOutputX4Y3Z9() {
+    public void testProposalInputOutputInExercises() {
 
-        Missile missile1 = new Missile(4, 3, proposalGrid);
-        int zombiesDestroyed = proposalGrid.receiveImpactWith(missile1);
-        int expectedZombiesDestroyed = 9;
+        //Fixed value, the original value is 4 but is an error in X coordinate
+        Missile missile1 = new Missile(5, 3, proposalGrid);
+        int zombiesDestroyed = proposalGrid.receiveImpactWith(missile1, true).zombies;
+        int expectedZombiesDestroyed = 15; 
         Assert.assertEquals(expectedZombiesDestroyed, zombiesDestroyed);
         
         Missile missile2 = new Missile(8, 6, proposalGrid);
-        zombiesDestroyed = proposalGrid.receiveImpactWith(missile2);
+        zombiesDestroyed = proposalGrid.receiveImpactWith(missile2, true).zombies;
         expectedZombiesDestroyed = 4;
         Assert.assertEquals(expectedZombiesDestroyed, zombiesDestroyed);
         
         Missile missile3 = new Missile(10, 3, proposalGrid);
-        zombiesDestroyed = proposalGrid.receiveImpactWith(missile3);
+        zombiesDestroyed = proposalGrid.receiveImpactWith(missile3, true).zombies;
         expectedZombiesDestroyed = 3;
         Assert.assertEquals(expectedZombiesDestroyed, zombiesDestroyed);
     }

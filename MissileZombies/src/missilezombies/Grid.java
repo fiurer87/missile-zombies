@@ -1,5 +1,6 @@
 package missilezombies;
 
+import java.awt.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,32 +10,32 @@ import java.util.List;
  * @author Luis Roberto <luis.robertop87@gmail.com>
  */
 class Grid {
-    
-    protected int width;
-    protected int height;
-    private List<Cell> matrix;
+
+    protected final Dimension dimension;
+    private final List<Cell> matrix;
     
     public Grid(int width, int height) {
-        this.width = width;
-        this.height = height;
+        dimension = new Dimension(width, height);
         matrix = new ArrayList<>();
     }
 
-    public int receiveImpactWith(Missile missile) {
+    public AttackResult receiveImpactWith(Missile missile, boolean clean) {
         int zombiesEliminated = 0;
         List<Point> attackedPositions = missile.coordinatesUnderAttack();
         for (Cell cell : matrix) {
             if (attackedPositions.contains(cell.position)) {
-                zombiesEliminated += cell.eliminateZombies();
+                int zombiesToEliminate = cell.eliminateZombies(clean);
+                zombiesEliminated += zombiesToEliminate;
             }
         }
-        return zombiesEliminated;
+        return new AttackResult(missile, zombiesEliminated);
     }
 
     public void addZombiesCell(int x, int y, int zombies) {
         if (zombies <= 0) return; // Just accept cells with 1 zombie at least
-        if( (x > 0 && x <= width) && (y > 0 && y <= height) ) {
+        if( (x > 0 && x <= dimension.width) && (y > 0 && y <= dimension.height) ) {
             matrix.add(new Cell(x, y, zombies) );
         }
     }
+
 }

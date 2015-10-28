@@ -11,15 +11,16 @@ import java.util.List;
 class Missile {
 
     private Point goal;
-    private List<Point> potentialAffectedPositions;
+
+    private final List<Point> potentialAffectedPositions;
     private final int limitX;
     private final int limitY;
 
     Missile(int x, int y, Grid objective) {
         goal = new Point(x, y);
         potentialAffectedPositions = new ArrayList<>();
-        limitX = objective.width;
-        limitY = objective.height;
+        limitX = objective.dimension.width;
+        limitY = objective.dimension.height;
         getAffectedPositions();
     }
     
@@ -62,5 +63,9 @@ class Missile {
     
     public List<Point> coordinatesUnderAttack() {
         return potentialAffectedPositions;
+    }
+    
+    public Point arrivedPosition() {
+        return goal;
     }
 }

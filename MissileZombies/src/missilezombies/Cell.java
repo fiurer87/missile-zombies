@@ -17,8 +17,10 @@ class Cell {
         this.zombies = zombies;
     }
     
-    public int eliminateZombies () {
-        return zombies;
+    public int eliminateZombies (boolean clean) {
+        int eliminated = zombies;
+        if ( clean ) zombies = 0;
+        return eliminated;
     }
     
     @Override
