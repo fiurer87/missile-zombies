@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
  * @author Luis Roberto <luis.robertop87@gmail.com>
  */
 public class MainTest {
-    
+
     public MainTest() {
     }
 
@@ -17,5 +17,5 @@ public class MainTest {
         //Rigourous test
         assertTrue(true);
     }
-    
+
 }
