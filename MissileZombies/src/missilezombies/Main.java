@@ -16,9 +16,11 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Solver solver = new Solver();
+
         System.out.println("Missile Zombies started...");
         Grid grid = null;
-        if( args.length == 0 ) {
+        if (args.length == 0) {
             System.out.println("There is no a file to read inputs");
             System.out.println("Next time try: java -jar missilezombies.jar /path/to/file.txt");
             System.out.println("Please insert the values in the specified format in the Exercise: "
@@ -27,7 +29,7 @@ public class Main {
             int width = reader.nextInt();
             int height = reader.nextInt();
             grid = new Grid(width, height);
-            for (int i = 0; i < width*height; i++) { // Limit insert to Grid size
+            for (int i = 0; i < width * height; i++) { // Limit insert to Grid size
                 try {
                     grid.addZombiesCell(reader.nextInt(), reader.nextInt(), reader.nextInt());
                 } catch (Exception e) {
@@ -36,7 +38,7 @@ public class Main {
             }
         } else {
             File inputFile = new File(args[0]);
-            if ( inputFile.exists() ) {
+            if (inputFile.exists()) {
                 try {
                     Scanner fileReader = new Scanner(inputFile);
                     grid = new Grid(fileReader.nextInt(), fileReader.nextInt());
@@ -49,10 +51,10 @@ public class Main {
                             "The file does not exists", ex);
                     System.exit(1);
                 }
-            }       
+            }
         }
 
-        System.out.print(Solver.solution(grid));
+        System.out.print(solver.solution(grid));
     }
 
 }
