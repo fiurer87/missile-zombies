@@ -22,6 +22,7 @@ class Grid {
     public AttackResult receiveImpactWith(Missile missile) {
         int zombies = potentialVictims(missile.arrivedPosition().x, missile.arrivedPosition().y);
         AttackResult result = new AttackResult(missile.arrivedPosition(), zombies);
+        updateMatrix(missile);
         return result;
     }
 
@@ -92,5 +93,20 @@ class Grid {
             }
         }
         return false;
+    }
+
+    public int countValidCells() {
+        return matrix.size();
+    }
+
+    private void updateMatrix(Missile missile) {
+        List<Point> attackedPositions = affectedPositions(missile.arrivedPosition());
+        List<Cell> cellsToDelete = new ArrayList<>();
+        for (Cell cell : matrix) {
+            if (attackedPositions.contains(cell.position)) {
+                cellsToDelete.add(cell);
+            }
+        }
+        matrix.removeAll(cellsToDelete);
     }
 }

@@ -5,6 +5,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  *
  * @author Luis Roberto <luis.robertop87@gmail.com>
@@ -37,7 +39,7 @@ public class GridTest {
         missile.setGoalPosition(x, y);
         AttackResult result = grid.receiveImpactWith(missile);
         AttackResult expected = new AttackResult(new Point(x, y), 0);
-        Assert.assertEquals(expected, result);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -59,7 +61,7 @@ public class GridTest {
         AttackResult result = grid.receiveImpactWith(missile);
         AttackResult expected = new AttackResult(new Point(x, y), zombies);
 
-        Assert.assertEquals(expected, result);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -81,7 +83,7 @@ public class GridTest {
         AttackResult result = grid.receiveImpactWith(missile);
         AttackResult expected = new AttackResult(new Point(x, y), zombies);
 
-        Assert.assertEquals(expected, result);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -92,19 +94,41 @@ public class GridTest {
         missile1.setGoalPosition(5, 3);
         AttackResult expected = new AttackResult(new Point(5, 3), 15);
         AttackResult result = proposalGrid.receiveImpactWith(missile1);
-        Assert.assertEquals(expected, result);
+        assertEquals(expected, result);
+        assertEquals(2, proposalGrid.countValidCells());
 
         Missile missile2 = new Missile(proposalGrid);
         missile2.setGoalPosition(8, 6);
         expected = new AttackResult(new Point(8, 6), 4);
         result = proposalGrid.receiveImpactWith(missile2);
-        Assert.assertEquals(expected, result);
+        assertEquals(expected, result);
+        assertEquals(1, proposalGrid.countValidCells());
 
         Missile missile3 = new Missile(proposalGrid);
         missile3.setGoalPosition(10, 3);
         expected = new AttackResult(new Point(10, 3), 3);
         result = proposalGrid.receiveImpactWith(missile3);
-        Assert.assertEquals(expected, result);
+        assertEquals(expected, result);
+        assertEquals(0, proposalGrid.countValidCells());
+    }
+
+    @Test
+    public void testUpdadeGridAfterAttackWithoutZombies() {
+        Grid grid = new Grid(1, 1);
+        assertEquals(0, grid.countValidCells());
+    }
+
+    @Test
+    public void testUpdadeGridAfterAttackWithZombies() {
+        Grid grid = new Grid(1, 1);
+        grid.addZombiesCell(1, 1, 1);
+        assertEquals(1, grid.countValidCells());
+
+        Missile missile = new Missile(grid);
+        missile.updateToBestPosition();
+
+        grid.receiveImpactWith(missile);
+        assertEquals(0, grid.countValidCells());
     }
 
 }
