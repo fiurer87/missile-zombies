@@ -10,7 +10,7 @@ import java.util.Objects;
 public class AttackResult {
 
     private final int zombies;
-    private Point position;
+    private final Point position;
 
     public AttackResult(Point position, int zombies) {
         this.position = position;
@@ -20,10 +20,6 @@ public class AttackResult {
     @Override
     public String toString() {
         return String.format("%d %d %d", position.x, position.y, zombies);
-    }
-
-    public boolean hasZombiesAttacked() {
-        return zombies > 0;
     }
 
     @Override

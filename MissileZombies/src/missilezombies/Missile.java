@@ -1,8 +1,6 @@
 package missilezombies;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -10,10 +8,9 @@ import java.util.List;
  */
 class Missile {
 
-    private Grid objective;
+    private final Grid objective;
     private final Point goal = new Point();
 
-    private final List<Point> potentialAffectedPositions = new ArrayList<>();
     private final int limitX;
     private final int limitY;
 
@@ -21,10 +18,6 @@ class Missile {
         this.objective = objective;
         limitX = objective.dimension.width;
         limitY = objective.dimension.height;
-    }
-
-    public List<Point> coordinatesUnderAttack() {
-        return potentialAffectedPositions;
     }
 
     public Point arrivedPosition() {

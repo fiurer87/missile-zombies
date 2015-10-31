@@ -17,18 +17,15 @@ class Cell {
         this.zombies = zombies;
     }
 
-    public int eliminateZombies(boolean clean) {
-        int eliminated = zombies;
-        if (clean) {
-            zombies = 0;
-        }
-        return eliminated;
+    public int getZombies() {
+        return zombies;
     }
 
     @Override
     public boolean equals(Object o) {
         Cell cell = (Cell) o;
-        return position.x == cell.position.x && position.y == cell.position.y
+        return position.x == cell.position.x
+                && position.y == cell.position.y
                 && zombies == zombies;
     }
 
@@ -38,9 +35,5 @@ class Cell {
         hash = 61 * hash + Objects.hashCode(this.position);
         hash = 61 * hash + this.zombies;
         return hash;
-    }
-
-    public int getZombies() {
-        return zombies;
     }
 }

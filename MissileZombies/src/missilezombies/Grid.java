@@ -19,26 +19,10 @@ class Grid {
         matrix = new ArrayList<>();
     }
 
-    private AttackResult impactWith(Missile missile, boolean clean) {
-        int zombiesEliminated = 0;
-        List<Point> attackedPositions = missile.coordinatesUnderAttack();
-        for (Cell cell : matrix) {
-            if (attackedPositions.contains(cell.position)) {
-                int zombiesToEliminate = cell.eliminateZombies(clean);
-                zombiesEliminated += zombiesToEliminate;
-            }
-        }
-        return new AttackResult(missile.arrivedPosition(), zombiesEliminated);
-    }
-
     public AttackResult receiveImpactWith(Missile missile) {
         int zombies = potentialVictims(missile.arrivedPosition().x, missile.arrivedPosition().y);
         AttackResult result = new AttackResult(missile.arrivedPosition(), zombies);
         return result;
-    }
-
-    public AttackResult potentialResult(Missile missile) {
-        return impactWith(missile, false);
     }
 
     public void addZombiesCell(int x, int y, int zombies) {
