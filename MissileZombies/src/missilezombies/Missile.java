@@ -10,18 +10,23 @@ import java.util.List;
  */
 class Missile {
 
-    private Point goal;
+    private Grid objective;
+    private final Point goal = new Point();
 
-    private final List<Point> potentialAffectedPositions;
+    private final List<Point> potentialAffectedPositions = new ArrayList<>();
     private final int limitX;
     private final int limitY;
 
-    Missile(int x, int y, Grid objective) {
-        goal = new Point(x, y);
-        potentialAffectedPositions = new ArrayList<>();
+    public Missile(int x, int y, Grid objective) {
         limitX = objective.dimension.width;
         limitY = objective.dimension.height;
         getAffectedPositions();
+    }
+
+    public Missile(Grid objective) {
+        this.objective = objective;
+        limitX = objective.dimension.width;
+        limitY = objective.dimension.height;
     }
 
     private void getAffectedPositions() {
@@ -67,5 +72,17 @@ class Missile {
 
     public Point arrivedPosition() {
         return goal;
+    }
+
+    public void updateToBestPosition() {
+        int maxVictims = Integer.MIN_VALUE;
+        for (int gridX = 1; gridX <= limitX; gridX++) {
+            for (int gridY = 1; gridY <= limitY; gridY++) {
+                int victims = objective.potentialVictims(gridX, gridY);
+                if (victims > maxVictims) {
+                    this.goal.move(gridX, gridY);
+                }
+            }
+        }
     }
 }

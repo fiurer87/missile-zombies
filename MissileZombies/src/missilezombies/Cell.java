@@ -37,5 +37,8 @@ class Cell {
         hash = 97 * hash + Objects.hashCode(this.position);
         return hash;
     }
-
+    
+    public int getZombies() {
+        return zombies;
+    }
 }
