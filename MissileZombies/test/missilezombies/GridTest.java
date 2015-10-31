@@ -33,9 +33,10 @@ public class GridTest {
         int y = 1;
 
         Grid grid = new Grid(witdh, height);
-        Missile missile = new Missile(x, y, grid);
-        AttackResult result = grid.potentialResult(missile);
-        AttackResult expected = new AttackResult(missile, 0);
+        Missile missile = new Missile(grid);
+        missile.setGoalPosition(x, y);
+        AttackResult result = grid.receiveImpactWith(missile);
+        AttackResult expected = new AttackResult(new Point(x, y), 0);
         Assert.assertEquals(expected, result);
     }
 
@@ -53,9 +54,10 @@ public class GridTest {
         Grid grid = new Grid(witdh, height);
         grid.addZombiesCell(x, y, zombies);
 
-        Missile missile = new Missile(x, y, grid);
-        AttackResult result = grid.potentialResult(missile);
-        AttackResult expected = new AttackResult(missile, zombies);
+        Missile missile = new Missile(grid);
+        missile.setGoalPosition(x, y);
+        AttackResult result = grid.receiveImpactWith(missile);
+        AttackResult expected = new AttackResult(new Point(x, y), zombies);
 
         Assert.assertEquals(expected, result);
     }
@@ -74,9 +76,10 @@ public class GridTest {
         Grid grid = new Grid(witdh, height);
         grid.addZombiesCell(2, 2, zombies);
 
-        Missile missile = new Missile(x, y, grid);
-        AttackResult result = grid.potentialResult(missile);
-        AttackResult expected = new AttackResult(missile, zombies);
+        Missile missile = new Missile(grid);
+        missile.setGoalPosition(x, y);
+        AttackResult result = grid.receiveImpactWith(missile);
+        AttackResult expected = new AttackResult(new Point(x, y), zombies);
 
         Assert.assertEquals(expected, result);
     }
@@ -86,7 +89,7 @@ public class GridTest {
 
         //Fixed value, the original value is 4 but is an error in X coordinate
         Missile missile1 = new Missile(proposalGrid);
-        missile1.setGoalPosition(5,3);
+        missile1.setGoalPosition(5, 3);
         AttackResult expected = new AttackResult(new Point(5, 3), 15);
         AttackResult result = proposalGrid.receiveImpactWith(missile1);
         Assert.assertEquals(expected, result);

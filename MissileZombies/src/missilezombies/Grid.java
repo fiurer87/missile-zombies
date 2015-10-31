@@ -28,16 +28,13 @@ class Grid {
                 zombiesEliminated += zombiesToEliminate;
             }
         }
-        return new AttackResult(missile, zombiesEliminated);
-    }
-
-    public void receiveImpactWith(AttackResult attack) {
-        impactWith(attack.getMissile(), true);
+        return new AttackResult(missile.arrivedPosition(), zombiesEliminated);
     }
 
     public AttackResult receiveImpactWith(Missile missile) {
         int zombies = potentialVictims(missile.arrivedPosition().x, missile.arrivedPosition().y);
-        return new AttackResult(missile.arrivedPosition(), zombies);
+        AttackResult result = new AttackResult(missile.arrivedPosition(), zombies);
+        return result;
     }
 
     public AttackResult potentialResult(Missile missile) {
