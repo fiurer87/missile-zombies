@@ -19,24 +19,11 @@ class Grid {
         matrix = new ArrayList<>();
     }
 
-    private AttackResult impactWith(Missile missile, boolean clean) {
-        int zombiesEliminated = 0;
-        List<Point> attackedPositions = missile.coordinatesUnderAttack();
-        for (Cell cell : matrix) {
-            if (attackedPositions.contains(cell.position)) {
-                int zombiesToEliminate = cell.eliminateZombies(clean);
-                zombiesEliminated += zombiesToEliminate;
-            }
-        }
-        return new AttackResult(missile, zombiesEliminated);
-    }
-
-    public void receiveImpactWith(AttackResult attack) {
-        impactWith(attack.getMissile(), true);
-    }
-
-    public AttackResult potentialResult(Missile missile) {
-        return impactWith(missile, false);
+    public AttackResult receiveImpactWith(Missile missile) {
+        int zombies = potentialVictims(missile.arrivedPosition().x, missile.arrivedPosition().y);
+        AttackResult result = new AttackResult(missile.arrivedPosition(), zombies);
+        updateMatrix(missile);
+        return result;
     }
 
     public void addZombiesCell(int x, int y, int zombies) {
@@ -48,4 +35,78 @@ class Grid {
         }
     }
 
+    public int potentialVictims(int x, int y) {
+        int zombiesEliminated = 0;
+        List<Point> attackedPositions = affectedPositions(new Point(x, y));
+        for (Cell cell : matrix) {
+            if (attackedPositions.contains(cell.position)) {
+                zombiesEliminated += cell.getZombies();
+            }
+        }
+        return zombiesEliminated;
+    }
+
+    private List<Point> affectedPositions(Point point) {
+        List<Point> positions = new ArrayList<>();
+        //Center
+        positions.add(new Point(point));
+        //Vertical
+        positions.add(new Point(point.x, point.y + 1));
+        positions.add(new Point(point.x, point.y + 2));
+        positions.add(new Point(point.x, point.y - 1));
+        positions.add(new Point(point.x, point.y - 2));
+        //Horizontal
+        positions.add(new Point(point.x + 1, point.y));
+        positions.add(new Point(point.x + 2, point.y));
+        positions.add(new Point(point.x - 1, point.y));
+        positions.add(new Point(point.x - 2, point.y));
+        //North squares
+        positions.add(new Point(point.x - 1, point.y + 1));
+        positions.add(new Point(point.x + 1, point.y + 1));
+        //South squares
+        positions.add(new Point(point.x - 1, point.y - 1));
+        positions.add(new Point(point.x - 1, point.y + 1));
+
+        //Wrapper points
+        for (Point position : positions) {
+            //Fixed x axis
+            if (position.x > dimension.width) {
+                position.move(position.x - dimension.width, position.y);
+            } else if (position.x < 1) {
+                position.move(dimension.width - position.x, position.y);
+            }
+            //Fixed y axis
+            if (position.y > dimension.height) {
+                position.move(position.x, position.y - dimension.height);
+            } else if (position.y < 1) {
+                position.move(position.x, dimension.height - position.y);
+            }
+        }
+
+        return positions;
+    }
+
+    public boolean existZombiensIn(int gridX, int gridY) {
+        for (Cell cell : matrix) {
+            if (cell.position.x == gridX && cell.position.y == gridY) {
+                return (cell.getZombies() != 0);
+            }
+        }
+        return false;
+    }
+
+    public int countValidCells() {
+        return matrix.size();
+    }
+
+    private void updateMatrix(Missile missile) {
+        List<Point> attackedPositions = affectedPositions(missile.arrivedPosition());
+        List<Cell> cellsToDelete = new ArrayList<>();
+        for (Cell cell : matrix) {
+            if (attackedPositions.contains(cell.position)) {
+                cellsToDelete.add(cell);
+            }
+        }
+        matrix.removeAll(cellsToDelete);
+    }
 }

@@ -12,12 +12,12 @@ import java.util.logging.Logger;
  */
 public class Main {
 
+    public static int MISSILES = 3;
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Solver solver = new Solver();
-
         System.out.println("Missile Zombies started...");
         Grid grid = null;
         if (args.length == 0) {
@@ -54,7 +54,22 @@ public class Main {
             }
         }
 
-        System.out.print(solver.solution(grid));
+        System.out.print(solution(grid));
+    }
+
+    public static String solution(Grid grid) {
+
+        Missile missile = new Missile(grid);
+        AttackResult result = null;
+        String output = "";
+
+        for (int i = 0; i < MISSILES; i++) {
+            missile.updateToBestPosition();
+            result = grid.receiveImpactWith(missile);
+            output += String.format("%s\n", result);
+        }
+
+        return output;
     }
 
 }

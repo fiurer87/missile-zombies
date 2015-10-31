@@ -17,25 +17,23 @@ class Cell {
         this.zombies = zombies;
     }
 
-    public int eliminateZombies(boolean clean) {
-        int eliminated = zombies;
-        if (clean) {
-            zombies = 0;
-        }
-        return eliminated;
+    public int getZombies() {
+        return zombies;
     }
 
     @Override
     public boolean equals(Object o) {
-        Cell toCompare = (Cell) o;
-        return position.equals(toCompare.position);
+        Cell cell = (Cell) o;
+        return position.x == cell.position.x
+                && position.y == cell.position.y
+                && zombies == zombies;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.position);
+        hash = 61 * hash + Objects.hashCode(this.position);
+        hash = 61 * hash + this.zombies;
         return hash;
     }
-
 }

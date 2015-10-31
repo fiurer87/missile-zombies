@@ -1,56 +1,40 @@
 package missilezombies;
 
 import java.awt.Point;
+import java.util.Objects;
 
 /**
  *
  * @author Luis Roberto <luis.robertop87@gmail.com>
  */
-public class AttackResult implements Comparable<AttackResult> {
+public class AttackResult {
 
-    private final Missile missile;
     private final int zombies;
+    private final Point position;
 
-    public AttackResult(Missile missile, int zombies) {
-        this.missile = missile;
+    public AttackResult(Point position, int zombies) {
+        this.position = position;
         this.zombies = zombies;
     }
 
     @Override
-    public int compareTo(AttackResult ar) {
-        if (zombies > ar.zombies) {
-            return 1;
-        }
-        if (zombies < ar.zombies) {
-            return -1;
-        }
-        return 0;
-    }
-
-    @Override
     public String toString() {
-        return String.format("%d %d %d", missile.arrivedPosition().x,
-                missile.arrivedPosition().y, zombies);
-    }
-
-    public boolean hasZombiesAttacked() {
-        return zombies > 0;
-    }
-
-    public Missile getMissile() {
-        return missile;
+        return String.format("%d %d %d", position.x, position.y, zombies);
     }
 
     @Override
     public boolean equals(Object o) {
         AttackResult ar = (AttackResult) o;
-        return this.compareTo(ar) == 0;
+        return (position.x == ar.position.x && position.y == ar.position.y
+                && zombies == ar.zombies);
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 71 * hash + this.zombies;
+        hash = 29 * hash + this.zombies;
+        hash = 29 * hash + Objects.hashCode(this.position);
         return hash;
     }
+
 }
