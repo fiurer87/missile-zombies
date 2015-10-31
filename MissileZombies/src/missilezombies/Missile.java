@@ -18,6 +18,7 @@ class Missile {
     private final int limitY;
 
     public Missile(int x, int y, Grid objective) {
+        this.objective = objective;
         limitX = objective.dimension.width;
         limitY = objective.dimension.height;
         getAffectedPositions();
@@ -80,9 +81,18 @@ class Missile {
             for (int gridY = 1; gridY <= limitY; gridY++) {
                 int victims = objective.potentialVictims(gridX, gridY);
                 if (victims > maxVictims) {
+                    maxVictims = victims;
                     this.goal.move(gridX, gridY);
+                } else if (victims == maxVictims) {
+                    if (objective.existZombiensIn(gridX, gridY)) {
+                        this.goal.move(gridX, gridY);
+                    }
                 }
             }
         }
+    }
+
+    public void setGoalPosition(int x, int y) {
+        goal.move(x, y);
     }
 }

@@ -17,7 +17,7 @@ public class AttackResult implements Comparable<AttackResult> {
         this.zombies = zombies;
         this.position = new Point();
     }
-    
+
     public AttackResult(Point position, int zombies) {
         this.position = position;
         this.zombies = zombies;
@@ -55,10 +55,7 @@ public class AttackResult implements Comparable<AttackResult> {
     @Override
     public boolean equals(Object o) {
         AttackResult ar = (AttackResult) o;
-        if (missile == null) {
-            return this.compareTo(ar) == 0;
-        }
-        return (position.x == ar.position.x && position.y == ar.position.y 
+        return (position.x == ar.position.x && position.y == ar.position.y
                 && zombies == ar.zombies);
     }
 

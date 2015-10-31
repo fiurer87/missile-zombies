@@ -1,5 +1,6 @@
 package missilezombies;
 
+import java.awt.Point;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -84,19 +85,22 @@ public class GridTest {
     public void testProposalInputOutputInExercises() {
 
         //Fixed value, the original value is 4 but is an error in X coordinate
-        Missile missile1 = new Missile(5, 3, proposalGrid);
-        AttackResult expected = new AttackResult(missile1, 15);
-        AttackResult result = proposalGrid.potentialResult(missile1);
+        Missile missile1 = new Missile(proposalGrid);
+        missile1.setGoalPosition(5,3);
+        AttackResult expected = new AttackResult(new Point(5, 3), 15);
+        AttackResult result = proposalGrid.receiveImpactWith(missile1);
         Assert.assertEquals(expected, result);
 
-        Missile missile2 = new Missile(8, 6, proposalGrid);
-        expected = new AttackResult(missile2, 4);
-        result = proposalGrid.potentialResult(missile2);
+        Missile missile2 = new Missile(proposalGrid);
+        missile2.setGoalPosition(8, 6);
+        expected = new AttackResult(new Point(8, 6), 4);
+        result = proposalGrid.receiveImpactWith(missile2);
         Assert.assertEquals(expected, result);
 
-        Missile missile3 = new Missile(10, 3, proposalGrid);
-        expected = new AttackResult(missile3, 3);
-        result = proposalGrid.potentialResult(missile3);
+        Missile missile3 = new Missile(proposalGrid);
+        missile3.setGoalPosition(10, 3);
+        expected = new AttackResult(new Point(10, 3), 3);
+        result = proposalGrid.receiveImpactWith(missile3);
         Assert.assertEquals(expected, result);
     }
 

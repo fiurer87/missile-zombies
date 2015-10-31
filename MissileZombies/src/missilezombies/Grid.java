@@ -34,7 +34,7 @@ class Grid {
     public void receiveImpactWith(AttackResult attack) {
         impactWith(attack.getMissile(), true);
     }
-    
+
     public AttackResult receiveImpactWith(Missile missile) {
         int zombies = potentialVictims(missile.arrivedPosition().x, missile.arrivedPosition().y);
         return new AttackResult(missile.arrivedPosition(), zombies);
@@ -63,7 +63,7 @@ class Grid {
         }
         return zombiesEliminated;
     }
-    
+
     private List<Point> affectedPositions(Point point) {
         List<Point> positions = new ArrayList<>();
         //Center
@@ -100,7 +100,16 @@ class Grid {
                 position.move(position.x, dimension.height - position.y);
             }
         }
-        
+
         return positions;
+    }
+
+    public boolean existZombiensIn(int gridX, int gridY) {
+        for (Cell cell : matrix) {
+            if (cell.position.x == gridX && cell.position.y == gridY) {
+                return (cell.getZombies() != 0);
+            }
+        }
+        return false;
     }
 }
